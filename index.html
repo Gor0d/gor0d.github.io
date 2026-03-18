@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EMERSON GUIMARÃES // AI_DATA_ANALYST</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=JetBrains+Mono:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red: #ff1744;
+  --red-dim: #c62828;
+  --red-glow: rgba(255,23,68,0.15);
+  --green: #00e676;
+  --green-dim: #1b5e20;
+  --amber: #ffab00;
+  --bg: #080808;
+  --bg2: #0f0f0f;
+  --bg3: #141414;
+  --border: rgba(255,23,68,0.25);
+  --text: #e0e0e0;
+  --text-dim: #757575;
+  --mono: 'JetBrains Mono', 'Share Tech Mono', monospace;
+  --orb: 'Orbitron', monospace;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+html{scroll-behavior:smooth;overflow-x:hidden}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--mono);
+  font-size:14px;
+  line-height:1.7;
+  cursor:crosshair;
+}
+
+/* SCANLINES */
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background:repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.08) 2px,
+    rgba(0,0,0,0.08) 4px
+  );
+  pointer-events:none;
+  z-index:9999;
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:#0a0a0a}
+::-webkit-scrollbar-thumb{background:var(--red-dim)}
+
+/* NAV */
+nav{
+  position:fixed;
+  top:0;left:0;right:0;
+  z-index:100;
+  background:rgba(8,8,8,0.92);
+  border-bottom:1px solid var(--border);
+  padding:0 2rem;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  height:52px;
+  backdrop-filter:blur(4px);
+}
+
+.nav-logo{
+  font-family:var(--orb);
+  font-size:11px;
+  font-weight:700;
+  color:var(--red);
+  letter-spacing:0.2em;
+  text-decoration:none;
+}
+
+.nav-logo span{color:var(--text-dim)}
+
+.nav-links{
+  display:flex;
+  gap:2rem;
+  list-style:none;
+}
+
+.nav-links a{
+  color:var(--text-dim);
+  text-decoration:none;
+  font-size:11px;
+  letter-spacing:0.15em;
+  transition:color 0.2s;
+}
+
+.nav-links a:hover{color:var(--red)}
+
+.nav-status{
+  font-size:10px;
+  color:var(--green);
+  letter-spacing:0.1em;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.status-dot{
+  width:6px;height:6px;
+  border-radius:50%;
+  background:var(--green);
+  animation:blink 1.4s infinite;
+}
+
+/* HERO */
+#hero{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:6rem 2rem 4rem;
+  position:relative;
+  overflow:hidden;
+}
+
+.hero-grid{
+  position:absolute;
+  inset:0;
+  background-image:
+    linear-gradient(rgba(255,23,68,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,23,68,0.04) 1px, transparent 1px);
+  background-size:40px 40px;
+}
+
+.hero-hex{
+  position:absolute;
+  right:-80px;top:50%;
+  transform:translateY(-50%);
+  opacity:0.04;
+  font-size:420px;
+  font-family:var(--orb);
+  color:var(--red);
+  pointer-events:none;
+  user-select:none;
+}
+
+.hero-content{
+  position:relative;
+  max-width:900px;
+  margin:0 auto;
+  width:100%;
+}
+
+.hero-warning{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  border:1px solid var(--red);
+  padding:4px 12px;
+  font-size:10px;
+  letter-spacing:0.25em;
+  color:var(--red);
+  margin-bottom:2rem;
+  animation:flicker 4s infinite;
+}
+
+.hero-warning::before{
+  content:'▲';
+  font-size:9px;
+}
+
+.hero-name{
+  font-family:var(--orb);
+  font-size:clamp(2rem, 6vw, 5rem);
+  font-weight:900;
+  color:#fff;
+  line-height:1;
+  letter-spacing:0.02em;
+  margin-bottom:0.5rem;
+}
+
+.hero-name .accent{color:var(--red)}
+
+.hero-title{
+  font-family:var(--orb);
+  font-size:clamp(0.8rem, 2vw, 1.1rem);
+  font-weight:400;
+  color:var(--text-dim);
+  letter-spacing:0.3em;
+  margin-bottom:2.5rem;
+}
+
+.hero-terminal{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:4px;
+  overflow:hidden;
+  max-width:640px;
+  margin-bottom:3rem;
+}
+
+.terminal-bar{
+  background:var(--bg3);
+  padding:8px 12px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  border-bottom:1px solid var(--border);
+}
+
+.tb-dot{width:10px;height:10px;border-radius:50%}
+.tb-dot.r{background:#ff5f57}
+.tb-dot.y{background:#febc2e}
+.tb-dot.g{background:#28c840}
+.tb-title{
+  margin-left:auto;margin-right:auto;
+  font-size:11px;color:var(--text-dim);
+  letter-spacing:0.1em;
+}
+
+.terminal-body{
+  padding:1.2rem;
+  font-size:13px;
+  line-height:2;
+}
+
+.t-line{display:flex;gap:8px;align-items:flex-start}
+.t-prompt{color:var(--red);flex-shrink:0}
+.t-cmd{color:var(--green)}
+.t-out{color:var(--text-dim);padding-left:20px}
+.t-highlight{color:var(--amber)}
+.cursor{
+  display:inline-block;
+  width:8px;height:14px;
+  background:var(--green);
+  animation:blink 1s infinite;
+  vertical-align:middle;
+}
+
+.hero-cta{
+  display:flex;
+  gap:1rem;
+  flex-wrap:wrap;
+}
+
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 24px;
+  font-family:var(--mono);
+  font-size:12px;
+  letter-spacing:0.15em;
+  text-decoration:none;
+  border:1px solid;
+  cursor:pointer;
+  transition:all 0.2s;
+}
+
+.btn-primary{
+  background:var(--red);
+  border-color:var(--red);
+  color:#fff;
+}
+
+.btn-primary:hover{
+  background:transparent;
+  color:var(--red);
+}
+
+.btn-ghost{
+  background:transparent;
+  border-color:var(--border);
+  color:var(--text-dim);
+}
+
+.btn-ghost:hover{
+  border-color:var(--red);
+  color:var(--red);
+}
+
+/* SECTIONS */
+section{
+  padding:6rem 2rem;
+  max-width:1100px;
+  margin:0 auto;
+}
+
+.section-header{
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  margin-bottom:3rem;
+}
+
+.section-id{
+  font-size:10px;
+  color:var(--red);
+  letter-spacing:0.3em;
+  font-family:var(--orb);
+}
+
+.section-line{
+  flex:1;
+  height:1px;
+  background:var(--border);
+}
+
+.section-title{
+  font-family:var(--orb);
+  font-size:clamp(1.3rem, 3vw, 2rem);
+  font-weight:700;
+  color:#fff;
+  letter-spacing:0.05em;
+}
+
+/* ABOUT */
+.about-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:3rem;
+  align-items:start;
+}
+
+@media(max-width:768px){.about-grid{grid-template-columns:1fr}}
+
+.about-text p{
+  color:var(--text-dim);
+  margin-bottom:1rem;
+  font-size:13px;
+}
+
+.about-text p strong{color:var(--red)}
+
+.about-stats{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1rem;
+}
+
+.stat-card{
+  border:1px solid var(--border);
+  padding:1.2rem;
+  background:var(--bg2);
+  position:relative;
+  overflow:hidden;
+}
+
+.stat-card::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:2px;
+  background:var(--red);
+}
+
+.stat-num{
+  font-family:var(--orb);
+  font-size:2rem;
+  font-weight:900;
+  color:var(--red);
+  line-height:1;
+}
+
+.stat-label{
+  font-size:11px;
+  color:var(--text-dim);
+  letter-spacing:0.1em;
+  margin-top:4px;
+}
+
+/* PROJECTS */
+.projects-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));
+  gap:1.5rem;
+}
+
+.project-card{
+  border:1px solid var(--border);
+  background:var(--bg2);
+  padding:1.5rem;
+  position:relative;
+  transition:border-color 0.2s;
+  overflow:hidden;
+}
+
+.project-card:hover{border-color:var(--red)}
+
+.project-card::after{
+  content:'';
+  position:absolute;
+  bottom:0;left:0;
+  width:0;height:1px;
+  background:var(--red);
+  transition:width 0.4s;
+}
+
+.project-card:hover::after{width:100%}
+
+.project-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  margin-bottom:0.8rem;
+}
+
+.project-id{
+  font-size:10px;
+  color:var(--red);
+  letter-spacing:0.2em;
+  font-family:var(--orb);
+}
+
+.project-status{
+  font-size:10px;
+  letter-spacing:0.1em;
+  padding:2px 8px;
+  border:1px solid;
+}
+
+.status-active{
+  color:var(--green);
+  border-color:rgba(0,230,118,0.3);
+}
+
+.status-prod{
+  color:var(--amber);
+  border-color:rgba(255,171,0,0.3);
+}
+
+.project-name{
+  font-family:var(--orb);
+  font-size:1rem;
+  font-weight:700;
+  color:#fff;
+  margin-bottom:0.5rem;
+}
+
+.project-desc{
+  font-size:12px;
+  color:var(--text-dim);
+  margin-bottom:1rem;
+  line-height:1.7;
+}
+
+.project-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+}
+
+.tag{
+  font-size:10px;
+  letter-spacing:0.1em;
+  color:var(--red);
+  border:1px solid var(--border);
+  padding:2px 8px;
+}
+
+/* SKILLS */
+.skills-container{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+  gap:2rem;
+}
+
+.skill-group-title{
+  font-size:11px;
+  letter-spacing:0.25em;
+  color:var(--red);
+  font-family:var(--orb);
+  margin-bottom:1.2rem;
+  padding-bottom:8px;
+  border-bottom:1px solid var(--border);
+}
+
+.skill-item{
+  margin-bottom:1rem;
+}
+
+.skill-meta{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:4px;
+}
+
+.skill-name{
+  font-size:12px;
+  color:var(--text);
+}
+
+.skill-pct{
+  font-size:12px;
+  color:var(--red);
+  font-family:var(--orb);
+}
+
+.skill-bar{
+  height:2px;
+  background:rgba(255,255,255,0.05);
+  position:relative;
+  overflow:hidden;
+}
+
+.skill-fill{
+  height:100%;
+  background:var(--red);
+  position:relative;
+  animation:fillbar 1.5s ease-out forwards;
+  transform-origin:left;
+}
+
+.skill-fill::after{
+  content:'';
+  position:absolute;
+  right:0;top:-2px;
+  width:4px;height:6px;
+  background:var(--red);
+}
+
+/* EXPERIENCE */
+.exp-timeline{
+  position:relative;
+  padding-left:2rem;
+}
+
+.exp-timeline::before{
+  content:'';
+  position:absolute;
+  left:0;top:0;bottom:0;
+  width:1px;
+  background:var(--border);
+}
+
+.exp-item{
+  position:relative;
+  margin-bottom:3rem;
+  padding-bottom:3rem;
+  border-bottom:1px solid rgba(255,23,68,0.08);
+}
+
+.exp-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+
+.exp-dot{
+  position:absolute;
+  left:-2.4rem;
+  top:4px;
+  width:8px;height:8px;
+  border-radius:50%;
+  background:var(--red);
+  border:2px solid var(--bg);
+  box-shadow:0 0 0 1px var(--red);
+}
+
+.exp-period{
+  font-size:10px;
+  color:var(--red);
+  letter-spacing:0.15em;
+  font-family:var(--orb);
+  margin-bottom:6px;
+}
+
+.exp-role{
+  font-family:var(--orb);
+  font-size:1rem;
+  color:#fff;
+  font-weight:700;
+  margin-bottom:4px;
+}
+
+.exp-company{
+  font-size:12px;
+  color:var(--amber);
+  letter-spacing:0.1em;
+  margin-bottom:1rem;
+}
+
+.exp-bullets{
+  list-style:none;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.exp-bullets li{
+  font-size:12px;
+  color:var(--text-dim);
+  display:flex;
+  gap:8px;
+  align-items:flex-start;
+}
+
+.exp-bullets li::before{
+  content:'//';
+  color:var(--red);
+  flex-shrink:0;
+  font-size:11px;
+  margin-top:2px;
+}
+
+/* CONTACT */
+#contact{
+  border-top:1px solid var(--border);
+  text-align:center;
+}
+
+.contact-title{
+  font-family:var(--orb);
+  font-size:clamp(1.5rem, 4vw, 3rem);
+  font-weight:900;
+  color:#fff;
+  margin-bottom:1rem;
+}
+
+.contact-title .accent{color:var(--red)}
+
+.contact-sub{
+  font-size:12px;
+  color:var(--text-dim);
+  letter-spacing:0.1em;
+  margin-bottom:3rem;
+}
+
+.contact-links{
+  display:flex;
+  justify-content:center;
+  gap:1.5rem;
+  flex-wrap:wrap;
+  margin-bottom:4rem;
+}
+
+.contact-link{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:var(--text-dim);
+  text-decoration:none;
+  font-size:12px;
+  letter-spacing:0.1em;
+  border:1px solid var(--border);
+  padding:10px 20px;
+  transition:all 0.2s;
+}
+
+.contact-link:hover{
+  color:var(--red);
+  border-color:var(--red);
+}
+
+.contact-link svg{
+  width:14px;height:14px;
+  fill:currentColor;
+}
+
+/* FOOTER */
+footer{
+  border-top:1px solid var(--border);
+  padding:1.5rem 2rem;
+  text-align:center;
+  font-size:10px;
+  color:var(--text-dim);
+  letter-spacing:0.15em;
+}
+
+footer span{color:var(--red)}
+
+/* ANIMATIONS */
+@keyframes blink{
+  0%,100%{opacity:1}
+  50%{opacity:0}
+}
+
+@keyframes flicker{
+  0%,100%{opacity:1}
+  92%{opacity:1}
+  93%{opacity:0.4}
+  94%{opacity:1}
+  96%{opacity:0.6}
+  97%{opacity:1}
+}
+
+@keyframes fillbar{
+  from{transform:scaleX(0)}
+  to{transform:scaleX(1)}
+}
+
+@keyframes fadeup{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.fade-in{
+  animation:fadeup 0.6s ease-out both;
+}
+
+/* MAGI LABEL */
+.magi-label{
+  position:fixed;
+  bottom:1.5rem;
+  right:1.5rem;
+  font-size:9px;
+  color:rgba(255,23,68,0.3);
+  letter-spacing:0.2em;
+  font-family:var(--orb);
+  writing-mode:vertical-rl;
+  text-orientation:mixed;
+  pointer-events:none;
+}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+  nav{padding:0 1rem}
+  .nav-links{gap:1rem}
+  section{padding:4rem 1rem}
+  .hero-hex{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#hero">EMERSON<span>.</span>GG</a>
+  <ul class="nav-links">
+    <li><a href="#about">ABOUT</a></li>
+    <li><a href="#projects">PROJECTS</a></li>
+    <li><a href="#skills">SKILLS</a></li>
+    <li><a href="#experience">EXP</a></li>
+    <li><a href="#education">FORMAÇÃO</a></li>
+    <li><a href="#contact">CONTACT</a></li>
+  </ul>
+  <div class="nav-status">
+    <div class="status-dot"></div>
+    SISTEMA ONLINE
+  </div>
+</nav>
+
+<section id="hero" style="max-width:100%;padding-top:0;padding-bottom:0">
+  <div class="hero-grid"></div>
+  <div class="hero-hex">⬡</div>
+
+  <div class="hero-content fade-in">
+    <div class="hero-warning">CLASSIFIED // NÍVEL DE ACESSO: ANALISTA SR</div>
+
+    <h1 class="hero-name">
+      EMERSON<br>
+      <span class="accent">GUIMARÃES</span>
+    </h1>
+
+    <p class="hero-title">DATA &amp; TECH BUILDER // BI // IA APLICADA // BELÉM-PA</p>
+
+    <div class="hero-terminal">
+      <div class="terminal-bar">
+        <div class="tb-dot r"></div>
+        <div class="tb-dot y"></div>
+        <div class="tb-dot g"></div>
+        <span class="tb-title">emerson@portfolio ~ zsh</span>
+      </div>
+      <div class="terminal-body">
+        <div class="t-line">
+          <span class="t-prompt">❯</span>
+          <span class="t-cmd">whoami</span>
+        </div>
+        <div class="t-line">
+          <span class="t-out">Analista de Dados &amp; IA | <span class="t-highlight">9+ anos</span> no setor de saúde</span>
+        </div>
+        <br>
+        <div class="t-line">
+          <span class="t-prompt">❯</span>
+          <span class="t-cmd">cat stack.json</span>
+        </div>
+        <div class="t-line">
+          <span class="t-out">{ Python, SQL, Power BI, LLMs, <span class="t-highlight">Machine Learning</span> }</span>
+        </div>
+        <br>
+        <div class="t-line">
+          <span class="t-prompt">❯</span>
+          <span class="t-cmd">ls ./projects</span>
+        </div>
+        <div class="t-line">
+          <span class="t-out">Hospital-ML  SmartOrder  VisionLOL  PortalExames  FisioHUB  MCP-Agents</span>
+        </div>
+        <br>
+        <div class="t-line">
+          <span class="t-prompt">❯</span>
+          <span class="cursor"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">▶ VER PROJETOS</a>
+      <a href="mailto:emerson.gsguimaraes@gmail.com" class="btn btn-ghost">✉ CONTATO</a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header">
+    <span class="section-id">// 01</span>
+    <div class="section-line"></div>
+  </div>
+  <h2 class="section-title" style="margin-bottom:2.5rem">SOBRE MIM</h2>
+
+  <div class="about-grid">
+    <div class="about-text fade-in">
+      <p>
+        Analista de Dados com foco em <strong>IA aplicada, Machine Learning e transformação digital</strong> no setor de saúde. Atuo na interseção entre dados, sistemas hospitalares e inteligência artificial.
+      </p>
+      <p>
+        Com 9+ anos de experiência hospitalar, já desenvolvi plataformas de IA, agentes autônomos com MCP, sistemas RAG para saúde, dashboards estratégicos e pipelines ETL sobre bancos Oracle.
+      </p>
+      <p>
+        Estudante de <strong>Análise e Desenvolvimento de Sistemas</strong> na FAP/Estácio de Sá, alumni do <strong>Scholarship DevSecOps da UOL Compass</strong>. Localizado em <strong>Belém, Pará - Brasil.</strong>
+      </p>
+    </div>
+
+    <div class="about-stats fade-in">
+      <div class="stat-card">
+        <div class="stat-num">9+</div>
+        <div class="stat-label">ANOS SETOR SAÚDE</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">52+</div>
+        <div class="stat-label">DASHBOARDS ATIVOS</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">103+</div>
+        <div class="stat-label">INDICADORES GERIDOS</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">40%</div>
+        <div class="stat-label">REDUÇÃO EM RELATÓRIOS</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" style="max-width:100%;border-top:1px solid var(--border)">
+  <div style="max-width:1100px;margin:0 auto">
+    <div class="section-header">
+      <span class="section-id">// 02</span>
+      <div class="section-line"></div>
+    </div>
+    <h2 class="section-title" style="margin-bottom:2.5rem">PROJETOS</h2>
+
+    <div class="projects-grid">
+      <div class="project-card fade-in">
+        <div class="project-header">
+          <span class="project-id">PROJ-001</span>
+          <span class="project-status status-prod">EM PRODUÇÃO</span>
+        </div>
+        <div class="project-name">Hospital Readmission ML</div>
+        <p class="project-desc">Pipeline completo de ML para predição de risco de readmissão hospitalar. Rede neural com Keras/TensorFlow (ROC-AUC 0.68 | AP 0.75), API REST com FastAPI e dashboard interativo com Streamlit.</p>
+        <div class="project-tags">
+          <span class="tag">KERAS</span>
+          <span class="tag">TENSORFLOW</span>
+          <span class="tag">FASTAPI</span>
+          <span class="tag">STREAMLIT</span>
+          <span class="tag">PYTHON</span>
+        </div>
+      </div>
+
+      <div class="project-card fade-in">
+        <div class="project-header">
+          <span class="project-id">PROJ-002</span>
+          <span class="project-status status-active">ATIVO</span>
+        </div>
+        <div class="project-name">SmartOrder Assistant</div>
+        <p class="project-desc">Assistente de IA para iFood integrado com Gemini AI. Analisa pedidos, sugere itens com base em histórico e otimiza o fluxo de atendimento ao cliente.</p>
+        <div class="project-tags">
+          <span class="tag">GEMINI AI</span>
+          <span class="tag">PYTHON</span>
+          <span class="tag">NODE.JS</span>
+          <span class="tag">API REST</span>
+        </div>
+      </div>
+
+      <div class="project-card fade-in">
+        <div class="project-header">
+          <span class="project-id">PROJ-003</span>
+          <span class="project-status status-active">ATIVO</span>
+        </div>
+        <div class="project-name">VisionLOL</div>
+        <p class="project-desc">Plataforma de análise e coaching para League of Legends. Integra Riot API, processa dados de partidas com ML e gera relatórios personalizados de performance.</p>
+        <div class="project-tags">
+          <span class="tag">RIOT API</span>
+          <span class="tag">PYTHON</span>
+          <span class="tag">ML</span>
+          <span class="tag">MATPLOTLIB</span>
+        </div>
+      </div>
+
+      <div class="project-card fade-in">
+        <div class="project-header">
+          <span class="project-id">PROJ-004</span>
+          <span class="project-status status-prod">EM PRODUÇÃO</span>
+        </div>
+        <div class="project-name">Portal de Exames HAB</div>
+        <p class="project-desc">Portal digital para acesso e assinatura de exames hospitalares. Elimina impressão, implementa assinatura Gov.br, logs de auditoria e integração com Green Paperless.</p>
+        <div class="project-tags">
+          <span class="tag">NODE.JS</span>
+          <span class="tag">PRISMA</span>
+          <span class="tag">GOV.BR API</span>
+          <span class="tag">JWT</span>
+        </div>
+      </div>
+
+      <div class="project-card fade-in">
+        <div class="project-header">
+          <span class="project-id">PROJ-005</span>
+          <span class="project-status status-active">ATIVO</span>
+        </div>
+        <div class="project-name">Agentes MCP // Oracle</div>
+        <p class="project-desc">3 agentes de IA com MCP para servidor Oracle hospitalar: Infra, Sistemas Clínicos e Indicadores. Leitura inteligente do banco e suporte autônomo às equipes.</p>
+        <div class="project-tags">
+          <span class="tag">MCP</span>
+          <span class="tag">CLAUDE API</span>
+          <span class="tag">ORACLE</span>
+          <span class="tag">PYTHON</span>
+        </div>
+      </div>
+
+      <div class="project-card fade-in">
+        <div class="project-header">
+          <span class="project-id">PROJ-006</span>
+          <span class="project-status status-active">ATIVO</span>
+        </div>
+        <div class="project-name">FisioHUB</div>
+        <p class="project-desc">Plataforma SaaS completa para gestão de clínicas de fisioterapia. Backend em Python, banco de dados relacional, APIs REST e camada de visualização — projeto full stack desenvolvido do zero.</p>
+        <div class="project-tags">
+          <span class="tag">PYTHON</span>
+          <span class="tag">FASTAPI</span>
+          <span class="tag">POSTGRESQL</span>
+          <span class="tag">REST API</span>
+          <span class="tag">SAAS</span>
+        </div>
+      </div>
+
+      <div class="project-card fade-in">
+        <div class="project-header">
+          <span class="project-id">PROJ-007</span>
+          <span class="project-status status-prod">EM PRODUÇÃO</span>
+        </div>
+        <div class="project-name">AI Prompt Writer // Mercor</div>
+        <p class="project-desc">Especialista de domínio contratado para treinamento de modelos frontier. Geração, avaliação e refinamento de prompts e datasets de alta qualidade com conhecimento clínico-hospitalar aplicado.</p>
+        <div class="project-tags">
+          <span class="tag">PROMPT ENGINEERING</span>
+          <span class="tag">LLM</span>
+          <span class="tag">HEALTHTECH</span>
+          <span class="tag">AI TRAINING</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header">
+    <span class="section-id">// 03</span>
+    <div class="section-line"></div>
+  </div>
+  <h2 class="section-title" style="margin-bottom:2.5rem">STACK TÉCNICA</h2>
+
+  <div class="skills-container">
+    <div class="fade-in">
+      <div class="skill-group-title">▸ DATA &amp; ENGENHARIA</div>
+      <div class="skill-item">
+        <div class="skill-meta"><span class="skill-name">Python (Pandas, NumPy)</span><span class="skill-pct">90%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-meta"><span class="skill-name">SQL / Oracle</span><span class="skill-pct">88%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:88%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-meta"><span class="skill-name">ETL/ELT · Star Schema · Data Vault</span><span class="skill-pct">82%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:82%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-meta"><span class="skill-name">Power BI (DAX · RLS)</span><span class="skill-pct">85%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-meta"><span class="skill-name">Looker Studio</span><span class="skill-pct">82%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:82%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-meta"><span class="skill-name">AWS (S3, Glue, Athena, Redshift)</span><span class="skill-pct">60%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:60%"></div></div>
+      </div>
+    </div>
+
+    <div class="fade-in">
+      <div class="skill-group-title">▸ AI &amp; MACHINE LEARNING</div>
+      <div class="skill-item">
+        <div class="skill-meta"><span class="skill-name">LLMs / Prompt Engineering</span><span class="skill-pct">85%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-meta"><span class="skill-name">Keras / TensorFlow / Scikit-learn</span><span class="skill-pct">70%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:70%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-meta"><span class="skill-name">RAG Architecture</span><span class="skill-pct">75%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:75%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-meta"><span class="skill-name">Gemini AI / Claude API</span><span class="skill-pct">80%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-meta"><span class="skill-name">MCP (Model Context Protocol)</span><span class="skill-pct">70%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:70%"></div></div>
+      </div>
+    </div>
+
+    <div class="fade-in">
+      <div class="skill-group-title">▸ DESENVOLVIMENTO &amp; INFRA</div>
+      <div class="skill-item">
+        <div class="skill-meta"><span class="skill-name">FastAPI / Node.js / REST APIs</span><span class="skill-pct">75%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:75%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-meta"><span class="skill-name">TypeScript / JavaScript</span><span class="skill-pct">72%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:72%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-meta"><span class="skill-name">N8N / Make (automações)</span><span class="skill-pct">70%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:70%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-meta"><span class="skill-name">PostgreSQL · MySQL · SQL Server</span><span class="skill-pct">78%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:78%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-meta"><span class="skill-name">Docker / Git / GitHub</span><span class="skill-pct">60%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:60%"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" style="border-top:1px solid var(--border)">
+  <div class="section-header">
+    <span class="section-id">// 04</span>
+    <div class="section-line"></div>
+  </div>
+  <h2 class="section-title" style="margin-bottom:2.5rem">EXPERIÊNCIA</h2>
+
+  <div class="exp-timeline">
+    <div class="exp-item fade-in">
+      <div class="exp-dot"></div>
+      <div class="exp-period">OUT 2024 → ATUAL</div>
+      <div class="exp-role">Supervisor de Desenvolvimento de Sistemas &amp; Dados</div>
+      <div class="exp-company">▸ HOSPITAL ADVENTISTA DE BELÉM // HAB</div>
+      <ul class="exp-bullets">
+        <li>Arquitetou e mantém pipelines de dados integrando ERP hospitalar (SoulMV/MVPep) com sistemas analíticos internos via Python e SQL — garantindo disponibilidade e consistência dos dados em tempo real</li>
+        <li>Implementou o programa Paperless Hospital: fluxos digitais com assinatura eletrônica e prontuário digital integrados ao ERP — redução de 80% nos custos de impressão e eliminação de retrabalho manual</li>
+        <li>Traduziu requisitos clínicos e administrativos complexos em especificações de sistemas, atuando como interface entre times técnicos e stakeholders médicos</li>
+        <li>Mantém documentação técnica de arquitetura, regras de negócio e pipelines, garantindo rastreabilidade e facilidade de manutenção</li>
+      </ul>
+    </div>
+
+    <div class="exp-item fade-in">
+      <div class="exp-dot"></div>
+      <div class="exp-period">NOV 2021 → OUT 2024</div>
+      <div class="exp-role">Analista de BI &amp; Engenharia de Dados</div>
+      <div class="exp-company">▸ HOSPITAL BENEFICENTE PORTUGUESA // HBP</div>
+      <ul class="exp-bullets">
+        <li>Desenvolveu e manteve 52+ dashboards Power BI em produção monitorando 103 indicadores de saúde — utilizados diariamente pela diretoria clínica, financeira e operacional</li>
+        <li>Construiu pipelines ETL/ELT automatizados em Python e SQL extraindo dados do ERP Oracle — redução de 40% no tempo de geração de relatórios críticos</li>
+        <li>Modelou datasets analíticos com Star Schema e Data Vault; criou procedures, views e funções SQL no Oracle para BI e relatórios regulatórios (SUS)</li>
+        <li>Liderou como gerente de projetos a revitalização do ERP MV nos módulos clínico, logística e RH: mapeou requisitos, coordenou desenvolvimento, testes e implantação</li>
+      </ul>
+    </div>
+
+    <div class="exp-item fade-in">
+      <div class="exp-dot"></div>
+      <div class="exp-period">AGO 2016 → JUN 2021</div>
+      <div class="exp-role">Analista Administrativo com foco em Sistemas de Saúde</div>
+      <div class="exp-company">▸ HOSPITAL MARADEI</div>
+      <ul class="exp-bullets">
+        <li>Operou sistemas hospitalares de faturamento, agendamento e prontuário em ambiente público de alto volume (SUS), desenvolvendo visão profunda dos fluxos clínicos e administrativos</li>
+        <li>Identificou e documentou inconsistências operacionais em sistemas, propondo melhorias de processo — iniciando transição para área técnica</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education" style="border-top:1px solid var(--border)">
+  <div class="section-header">
+    <span class="section-id">// 05</span>
+    <div class="section-line"></div>
+  </div>
+  <h2 class="section-title" style="margin-bottom:2.5rem">FORMAÇÃO &amp; CERTIFICAÇÕES</h2>
+
+  <div class="exp-timeline">
+    <div class="exp-item fade-in">
+      <div class="exp-dot"></div>
+      <div class="exp-period">JAN 2022 → JUN 2025</div>
+      <div class="exp-role">Tecnólogo em Análise e Desenvolvimento de Sistemas</div>
+      <div class="exp-company">▸ FAP – ESTÁCIO DE SÁ // BELÉM, PA</div>
+    </div>
+
+    <div class="exp-item fade-in">
+      <div class="exp-dot"></div>
+      <div class="exp-period">CERTIFICAÇÕES</div>
+      <div class="exp-role">Certificados Profissionais</div>
+      <div class="exp-company">▸ IBM · GOOGLE · ORACLE · CISCO</div>
+      <ul class="exp-bullets">
+        <li>IBM Data Science Professional Certificate — Coursera / IBM (2023)</li>
+        <li>Google Business Intelligence Professional Certificate — Coursera / Google (2023)</li>
+        <li>Oracle Cloud Infrastructure 2023 Certified Foundations Associate — Oracle (2023)</li>
+        <li>Programa de Cibersegurança — Cisco Networking Academy (2022–2025)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header">
+    <span class="section-id">// 06</span>
+    <div class="section-line"></div>
+  </div>
+
+  <h2 class="contact-title">VAMOS <span class="accent">CONSTRUIR</span><br>ALGO?</h2>
+  <p class="contact-sub">ABERTO A NOVOS PROJETOS E OPORTUNIDADES // BELÉM, PARÁ - BRASIL</p>
+
+  <div class="contact-links">
+    <a href="mailto:emerson.gsguimaraes@gmail.com" class="contact-link">
+      <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+      EMAIL
+    </a>
+    <a href="https://linkedin.com/in/emersongsguimaraes" target="_blank" class="contact-link">
+      <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      LINKEDIN
+    </a>
+    <a href="https://github.com/Gor0d" target="_blank" class="contact-link">
+      <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+      GITHUB
+    </a>
+    <a href="https://behance.net/emersonguimaraes" target="_blank" class="contact-link">
+      <svg viewBox="0 0 24 24"><path d="M22 7h-7V5h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14H15.97c.13 3.211 3.483 3.312 4.588 2.029L23.726 17zm-8.738-4h4.967c-.069-1.786-.103-3.330-2.382-3.330-1.966 0-2.475 1.550-2.585 3.330z"/></svg>
+      BEHANCE
+    </a>
+  </div>
+</section>
+
+<footer>
+  <span>EMERSON GABRIEL GUIMARÃES</span> // BELÉM, PARÁ — BRASIL // <span>2026</span>
+</footer>
+
+<div class="magi-label">MAGI:CASPAR // SISTEMA ATIVO</div>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, {threshold: 0.1});
+
+document.querySelectorAll('.fade-in').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
