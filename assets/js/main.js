@@ -39,7 +39,7 @@
       ['BALTHASAR-2 ......... OK', 'ok'],
       ['CASPAR-3 ............ OK', 'ok'],
       ['Sincronizando repositórios GitHub ....... 16 projetos', ''],
-      ['Nível de acesso: SUPERVISOR // Belém-PA', 'warn'],
+      ['Nível de acesso: COORDENAÇÃO // Belém-PA', 'warn'],
       ['Sistema operacional. Bem-vindo.', 'ok'],
     ];
 
@@ -325,9 +325,9 @@
     const body = $('#heroTerm');
     if (!body) return;
     const script = [
-      { cmd: 'whoami', out: 'Analista de Dados & IA | <span class="t-hl">9+ anos</span> no setor de saúde | Belém-PA' },
-      { cmd: 'cat stack.json', out: '{ Python, SQL/Oracle, Power BI, <span class="t-cy">MCP</span>, Keras, XGBoost, <span class="t-hl">LLMs</span> }' },
-      { cmd: 'ls ./projects --active', out: 'EconomIA  KIT-MV  OPME-Vision  MaisFisio-HUB  Agentes-MCP  PromptLite' },
+      { cmd: 'whoami', out: 'Technology Leader | <span class="t-hl">Applied AI</span> | Automation | Data | Healthcare' },
+      { cmd: 'cat stack.json', out: '{ Leadership, Python, SQL/Oracle, APIs, <span class="t-cy">Agents & RAG</span>, BI, <span class="t-hl">Automation</span> }' },
+      { cmd: 'impact --year 2026', out: '<span class="t-hl">25 sistemas</span> · 12 painéis BI · 5.944 chamados · R$ 1,93M em valor equivalente de mercado' },
       { cmd: 'magi --status', out: '<span class="t-cy">MELCHIOR</span> OK · <span class="t-cy">BALTHASAR</span> OK · <span class="t-cy">CASPAR</span> OK — <span class="t-hl">disponível para novos projetos</span>' },
     ];
 
@@ -367,12 +367,12 @@
 
     const countUp = (el) => {
       const to = Number(el.dataset.to || 0);
-      if (REDUCED) { el.textContent = String(to); return; }
+      if (REDUCED) { el.textContent = to.toLocaleString('pt-BR'); return; }
       const dur = 1400, t0 = performance.now();
       const tick = (now) => {
         const p = Math.min(1, (now - t0) / dur);
         const e = 1 - Math.pow(1 - p, 3);
-        el.textContent = String(Math.round(to * e));
+        el.textContent = Math.round(to * e).toLocaleString('pt-BR');
         if (p < 1) requestAnimationFrame(tick);
       };
       requestAnimationFrame(tick);
@@ -416,8 +416,10 @@
      10. FILTROS DE PROJETOS
      ------------------------------------------------------------------------ */
   (() => {
-    const btns = $$('.filter'), cards = $$('#projectsGrid .card');
+    const grid = $('#projectsGrid');
+    const btns = $$('.filter'), cards = $$('.card', grid).sort((a, b) => Number(a.dataset.priority || 99) - Number(b.dataset.priority || 99));
     if (!btns.length) return;
+    cards.forEach((card) => grid.appendChild(card));
     // contadores nos botões
     btns.forEach((b) => {
       const f = b.dataset.filter;
@@ -512,23 +514,28 @@
       name: $('.card-name', c).childNodes[0].textContent.trim(),
       status: $('.badge', c).textContent.trim(),
       link: ($('.card-links a', c) || {}).href || '',
-    }));
+      priority: Number(c.dataset.priority || 99),
+    })).sort((a, b) => a.priority - b.priority);
 
     const cmds = {
       help: () => print([
         '<span class="h">COMANDOS DISPONÍVEIS</span>',
         '  <span class="c">whoami</span>      quem sou',
+        '  <span class="c">impact</span>       impacto de 2026',
         '  <span class="c">projects</span>    lista os projetos do portfólio',
         '  <span class="c">stack</span>       stack técnica resumida',
+        '  <span class="c">experience</span>  experiência profissional',
         '  <span class="c">contact</span>     canais de contato',
         '  <span class="c">goto</span> &lt;seção&gt;  about | projects | skills | experience | education | contact',
         '  <span class="c">magi</span>        status do sistema',
         '  <span class="c">clear</span>       limpa a tela',
         '  <span class="c">exit</span>        fecha o terminal',
       ].join('\n')),
-      whoami: () => print('<span class="y">Emerson Gabriel Guimarães</span> — Analista de Dados & IA, 9+ anos no setor de saúde.\nSupervisor de Desenvolvimento de Sistemas & Dados @ HAB · Belém-PA.'),
+      whoami: () => print('<span class="y">Emerson Gabriel da Silva Guimarães</span> — Technology Leader | Applied AI | Automation | Data | Healthcare.\nCoordenador de Tecnologia da Informação @ Hospital Beneficente Portuguesa do Pará · Belém-PA.'),
+      impact: () => print('<span class="y">2026:</span> 25 sistemas/módulos · 12 painéis de BI · 5.944 chamados de TI\n<span class="h">R$ 1,93M</span> em valor equivalente de mercado estimado · R$ 137,2 mil/ano em licenças evitadas.'),
       projects: () => print(projects.map((p) => `  <span class="c">${p.id}</span>  ${p.name.padEnd(36, ' ')} <span class="h">${p.status}</span>${p.link ? `  <a href="${p.link}" target="_blank" rel="noopener">↗</a>` : ''}`).join('\n')),
-      stack: () => print('<span class="y">Dados:</span> Python · SQL/Oracle · Power BI · ETL · Data Vault\n<span class="y">IA:</span> LLMs · Claude API · Gemini · MCP · RAG · Keras · XGBoost · YOLOv8\n<span class="y">Dev:</span> FastAPI · Node · TypeScript · Next.js · Supabase · Docker\n<span class="y">Saúde:</span> ERP MV/SoulMV · SUS/SIGTAP · ANS · LGPD'),
+      stack: () => print('<span class="y">IA & Automação:</span> LLMs · Agents · RAG · MCP · OpenAI · Claude · Gemini\n<span class="y">Dados:</span> Python · SQL/Oracle · PL/SQL · Power BI · ETL/ELT\n<span class="y">Sistemas:</span> FastAPI · REST · Node · TypeScript · Next.js · Supabase · Docker\n<span class="y">HealthTech:</span> SoulMV/DBAMV · SUS · TISS · ANS · LGPD · liderança técnica'),
+      experience: () => print('<span class="y">Atual:</span> Coordenador de Tecnologia da Informação @ Hospital Beneficente Portuguesa do Pará (2026 → atual)\n<span class="y">Anterior:</span> Hospital Adventista de Belém (out/2024 → mar/2026)\n<span class="y">Anterior:</span> Hospital Beneficente Portuguesa (nov/2021 → out/2024)\n<span class="y">Anterior:</span> Hospital Maradei (ago/2016 → jun/2021)'),
       contact: () => print('  e-mail    <a href="mailto:emerson.gsguimaraes@gmail.com">emerson.gsguimaraes@gmail.com</a>\n  linkedin  <a href="https://linkedin.com/in/emersongsguimaraes" target="_blank" rel="noopener">/in/emersongsguimaraes</a>\n  github    <a href="https://github.com/Gor0d" target="_blank" rel="noopener">@Gor0d</a>'),
       magi: () => print('<span class="c">MELCHIOR-1</span> ... OK\n<span class="c">BALTHASAR-2</span> .. OK\n<span class="c">CASPAR-3</span> ..... OK\n<span class="h">Decisão unânime: aprovado.</span>'),
       goto: (arg) => { if (!arg || !goto(arg)) print(`<span class="e">seção não encontrada:</span> ${arg || '(vazio)'}`); },
