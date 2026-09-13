@@ -482,7 +482,7 @@
     btn.addEventListener('click', async (e) => {
       e.preventDefault(); e.stopPropagation();
       try {
-        await navigator.clipboard.writeText('emerson.gsguimaraes@gmail.com');
+        await navigator.clipboard.writeText('emersongsguimaraes@gmail.com');
         btn.textContent = 'COPIADO ✓'; btn.classList.add('is-copied');
         setTimeout(() => { btn.textContent = 'COPIAR'; btn.classList.remove('is-copied'); }, 1800);
       } catch { btn.textContent = 'ERRO'; }
@@ -536,7 +536,7 @@
       projects: () => print(projects.map((p) => `  <span class="c">${p.id}</span>  ${p.name.padEnd(36, ' ')} <span class="h">${p.status}</span>${p.link ? `  <a href="${p.link}" target="_blank" rel="noopener">↗</a>` : ''}`).join('\n')),
       stack: () => print('<span class="y">IA & Automação:</span> LLMs · Agents · RAG · MCP · OpenAI · Claude · Gemini\n<span class="y">Dados:</span> Python · SQL/Oracle · PL/SQL · Power BI · ETL/ELT\n<span class="y">Sistemas:</span> FastAPI · REST · Node · TypeScript · Next.js · Supabase · Docker\n<span class="y">HealthTech:</span> SoulMV/DBAMV · SUS · TISS · ANS · LGPD · liderança técnica'),
       experience: () => print('<span class="y">Atual:</span> Coordenador de Tecnologia da Informação @ Hospital Beneficente Portuguesa do Pará (abr/2026 → atual)\n<span class="y">Anterior:</span> Hospital Adventista de Belém (out/2024 → mar/2026)\n<span class="y">Anterior:</span> Hospital Beneficente Portuguesa (nov/2021 → out/2024)\n<span class="y">Anterior:</span> Hospital Maradei (ago/2016 → jun/2021)'),
-      contact: () => print('  e-mail    <a href="mailto:emerson.gsguimaraes@gmail.com">emerson.gsguimaraes@gmail.com</a>\n  linkedin  <a href="https://linkedin.com/in/emersongsguimaraes" target="_blank" rel="noopener">/in/emersongsguimaraes</a>\n  github    <a href="https://github.com/Gor0d" target="_blank" rel="noopener">@Gor0d</a>'),
+      contact: () => print('  e-mail    <a href="mailto:emersongsguimaraes@gmail.com">emersongsguimaraes@gmail.com</a>\n  linkedin  <a href="https://linkedin.com/in/emersongsguimaraes" target="_blank" rel="noopener">/in/emersongsguimaraes</a>\n  github    <a href="https://github.com/Gor0d" target="_blank" rel="noopener">@Gor0d</a>'),
       magi: () => print('<span class="c">MELCHIOR-1</span> ... OK\n<span class="c">BALTHASAR-2</span> .. OK\n<span class="c">CASPAR-3</span> ..... OK\n<span class="h">Decisão unânime: aprovado.</span>'),
       goto: (arg) => { if (!arg || !goto(arg)) print(`<span class="e">seção não encontrada:</span> ${arg || '(vazio)'}`); },
       clear: () => { out.innerHTML = ''; },
